@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Zaguán · Cafetería y Fonda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --anil: #1B3A56;
+    --anil-deep: #12283D;
+    --crema: #F6EFE0;
+    --crema-alt: #EFE6D2;
+    --ladrillo: #A63D2E;
+    --ladrillo-deep: #8A2F22;
+    --mostaza: #D9A441;
+    --oliva: #57633C;
+    --tinta: #2A2321;
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Work Sans', sans-serif;
+    --font-accent: 'Caveat', cursive;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family: var(--font-body);
+    background: var(--crema);
+    color: var(--tinta);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  h1,h2,h3{font-family:var(--font-display); font-weight:700; line-height:1.1;}
+  .container{max-width:1140px; margin:0 auto; padding:0 24px;}
+  .eyebrow{
+    font-family:var(--font-accent);
+    font-size:1.4rem;
+    color:var(--ladrillo);
+    display:inline-block;
+    margin-bottom:6px;
+  }
+
+  /* ---------- Tile divider (signature motif) ---------- */
+  .tile-divider{
+    height:34px;
+    display:flex;
+    background:var(--anil);
+  }
+  .tile-divider span{
+    flex:1;
+    max-width:34px;
+    height:34px;
+    background:
+      linear-gradient(45deg, transparent 48%, var(--mostaza) 48%, var(--mostaza) 52%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--mostaza) 48%, var(--mostaza) 52%, transparent 52%);
+  }
+  .tile-divider span:nth-child(3n+1){
+    background:
+      linear-gradient(45deg, transparent 48%, var(--ladrillo) 48%, var(--ladrillo) 52%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--ladrillo) 48%, var(--ladrillo) 52%, transparent 52%);
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--anil);
+    border-bottom:3px solid var(--mostaza);
+  }
+  nav.container{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--font-display); font-weight:700;
+    font-size:1.3rem; color:var(--crema);
+  }
+  .brand svg{width:34px; height:34px;}
+  .navlinks{display:flex; gap:28px; font-size:0.95rem;}
+  .navlinks a{color:var(--crema-alt); position:relative; padding-bottom:4px;}
+  .navlinks a:hover{color:var(--mostaza);}
+  .menu-toggle{display:none; background:none; border:none; color:var(--crema); font-size:1.6rem; cursor:pointer;}
+
+  @media (max-width:800px){
+    .navlinks{
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--anil);
+      flex-direction:column; padding:14px 24px 20px;
+      display:none;
+      border-bottom:3px solid var(--mostaza);
+    }
+    .navlinks.open{display:flex;}
+    .menu-toggle{display:block;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:var(--anil);
+    color:var(--crema);
+    padding:64px 0 0;
+    position:relative;
+  }
+  .hero .container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+    align-items:center;
+  }
+  .hero-copy h1{
+    font-size:clamp(2.2rem, 4vw, 3.4rem);
+    color:var(--crema);
+    margin-bottom:18px;
+  }
+  .hero-copy p{
+    font-size:1.08rem;
+    color:var(--crema-alt);
+    max-width:46ch;
+    margin-bottom:28px;
+  }
+  .btn{
+    display:inline-block;
+    background:var(--ladrillo);
+    color:var(--crema);
+    font-family:var(--font-body);
+    font-weight:600;
+    padding:14px 28px;
+    border-radius:2px;
+    border:none;
+    cursor:pointer;
+    font-size:1rem;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .btn:hover{background:var(--ladrillo-deep); transform:translateY(-2px);}
+  .btn.secondary{
+    background:transparent;
+    border:2px solid var(--mostaza);
+    color:var(--mostaza);
+    margin-left:12px;
+  }
+  .btn.secondary:hover{background:var(--mostaza); color:var(--anil-deep);}
+
+  .arch-frame{
+    width:100%;
+    aspect-ratio: 3/4;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(217,164,65,.35), transparent 60%),
+      linear-gradient(160deg, var(--ladrillo) 0%, var(--anil-deep) 70%);
+    border-radius: 260px 260px 12px 12px;
+    border:6px solid var(--mostaza);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:26px;
+  }
+  .arch-frame span{
+    font-family:var(--font-accent);
+    font-size:1.5rem;
+    color:var(--crema);
+    background:rgba(27,58,86,.55);
+    padding:6px 18px;
+    border-radius:20px;
+  }
+
+  section{padding:88px 0;}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 48px;}
+  .section-head h2{font-size:clamp(1.8rem,3vw,2.6rem); color:var(--anil-deep);}
+  .section-head p{color:#5c5248; margin-top:12px;}
+
+  /* ---------- Historia ---------- */
+  .historia .container{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap:56px;
+    align-items:center;
+  }
+  .historia .arch-frame{aspect-ratio:1/1; border-radius:220px 220px 12px 12px;}
+  .historia h2{font-size:clamp(1.8rem,3vw,2.4rem); color:var(--anil-deep); margin-bottom:18px;}
+  .historia p{margin-bottom:16px; color:#463f36;}
+  .historia p:last-of-type{margin-bottom:0;}
+
+  /* ---------- Menu ---------- */
+  .menu{background:var(--crema-alt);}
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:36px;
+  }
+  .menu-cat h3{
+    color:var(--ladrillo);
+    font-size:1.4rem;
+    margin-bottom:6px;
+  }
+  .menu-cat .cat-tag{
+    font-family:var(--font-accent);
+    color:var(--oliva);
+    font-size:1.1rem;
+    display:block;
+    margin-bottom:16px;
+  }
+  .dish{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:14px 0;
+    border-bottom:1px dashed #cbbfa4;
+  }
+  .dish:last-child{border-bottom:none;}
+  .dish-name{font-weight:600; color:var(--tinta);}
+  .dish-desc{font-size:0.88rem; color:#6b6154; margin-top:2px;}
+  .dish-price{font-family:var(--font-display); font-weight:600; color:var(--anil-deep); white-space:nowrap;}
+  .badge{
+    display:inline-block;
+    font-size:0.68rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:var(--oliva);
+    color:var(--crema);
+    padding:2px 8px;
+    border-radius:10px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  /* ---------- Galeria ---------- */
+  .galeria-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .gal-item{
+    aspect-ratio:3/4;
+    border-radius:120px 120px 8px 8px;
+    border:4px solid var(--mostaza);
+    display:flex; align-items:flex-end; justify-content:center;
+    padding-bottom:16px;
+    color:var(--crema);
+    font-size:0.92rem;
+    font-weight:600;
+    text-align:center;
+  }
+  .gal-item span{background:rgba(0,0,0,.28); padding:4px 10px; border-radius:14px;}
+  .gal1{background:linear-gradient(160deg,#A63D2E,#6f2a20);}
+  .gal2{background:linear-gradient(160deg,#57633C,#333c22);}
+  .gal3{background:linear-gradient(160deg,#D9A441,#a6771f);}
+  .gal4{background:linear-gradient(160deg,#1B3A56,#0c1e2f);}
+  .gal-item.has-photo{background-size:cover; background-position:center;}
+
+  /* ---------- Platillos con foto ---------- */
+  .dish-main{display:flex; align-items:center; gap:14px;}
+  .dish-thumb{
+    width:56px; height:56px; border-radius:10px;
+    object-fit:cover; flex-shrink:0;
+    border:2px solid var(--mostaza);
+  }
+
+  /* ---------- Reservar ---------- */
+  .reservar{background:var(--anil); color:var(--crema);}
+  .reservar .section-head h2{color:var(--crema);}
+  .reservar .section-head p{color:var(--crema-alt);}
+  form{
+    max-width:640px;
+    margin:0 auto;
+    background:var(--crema);
+    color:var(--tinta);
+    padding:40px;
+    border-radius:16px;
+    border:3px solid var(--mostaza);
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px;}
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field.full{grid-column:1/-1;}
+  label{font-size:0.85rem; font-weight:600; color:var(--anil-deep);}
+  input, select, textarea{
+    font-family:var(--font-body);
+    padding:11px 12px;
+    border:1.5px solid #d9cdb4;
+    border-radius:6px;
+    font-size:0.96rem;
+    background:#fffdf8;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:3px solid var(--mostaza);
+    outline-offset:1px;
+    border-color:var(--ladrillo);
+  }
+  textarea{resize:vertical; min-height:80px;}
+  .form-msg{
+    margin-top:16px;
+    padding:12px 16px;
+    border-radius:8px;
+    background:#EAF1E4;
+    color:var(--oliva);
+    font-weight:600;
+    display:none;
+  }
+  .form-msg.show{display:block;}
+
+  /* ---------- Contacto / footer ---------- */
+  footer{background:var(--anil-deep); color:var(--crema-alt); padding:64px 0 32px;}
+  .foot-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr;
+    gap:40px;
+    margin-bottom:40px;
+  }
+  footer h3{font-family:var(--font-display); color:var(--mostaza); margin-bottom:14px; font-size:1.15rem;}
+  footer p, footer a{color:var(--crema-alt); font-size:0.92rem;}
+  footer .hours-row{display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.08); font-size:0.9rem;}
+  .socials{display:flex; gap:14px; margin-top:14px;}
+  .socials a{
+    width:38px; height:38px; border-radius:50%;
+    border:1.5px solid var(--mostaza);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.85rem; font-weight:700; color:var(--mostaza);
+  }
+  .socials a:hover{background:var(--mostaza); color:var(--anil-deep);}
+  .foot-bottom{
+    text-align:center; font-size:0.82rem; color:#8b98a3;
+    padding-top:24px; border-top:1px solid rgba(255,255,255,.08);
+  }
+
+  @media (max-width:900px){
+    .hero .container{grid-template-columns:1fr;}
+    .hero .arch-frame{order:-1; max-width:340px; margin:0 auto;}
+    .historia .container{grid-template-columns:1fr;}
+    .historia .arch-frame{max-width:320px; margin:0 auto;}
+    .menu-grid{grid-template-columns:1fr;}
+    .galeria-grid{grid-template-columns:repeat(2,1fr);}
+    .foot-grid{grid-template-columns:1fr; gap:28px;}
+    .form-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="container">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none"><path d="M6 34V18C6 9.16 12.6 4 20 4C27.4 4 34 9.16 34 18V34" stroke="#D9A441" stroke-width="3"/><line x1="6" y1="34" x2="34" y2="34" stroke="#D9A441" stroke-width="3"/></svg>
+      El Zaguán
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="#inicio">Inicio</a>
+      <a href="#historia">Nosotros</a>
+      <a href="#menu">Menú</a>
+      <a href="#galeria">Galería</a>
+      <a href="#reservar">Reservar</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="container">
+    <div class="hero-copy">
+      <span class="eyebrow">Cafetería y fonda de barrio</span>
+      <h1>La puerta que siempre está abierta</h1>
+      <p>En El Zaguán cocinamos como en casa: mole de la abuela, café de olla recién hecho y un patio donde el tiempo se estira. Ven a sentarte a la mesa de siempre, aunque sea tu primera vez.</p>
+      <a href="#reservar" class="btn">Reservar mesa</a>
+      <a href="#menu" class="btn secondary">Ver el menú</a>
+    </div>
+    <div class="arch-frame"><span>Desde el comal a tu mesa</span></div>
+  </div>
+</section>
+<div class="tile-divider" id="tileTop"></div>
+
+<section class="historia" id="historia">
+  <div class="container">
+    <div class="arch-frame" style="background:linear-gradient(160deg, var(--oliva), #2c331c);"><span>Patio central</span></div>
+    <div>
+      <span class="eyebrow">Nuestra historia</span>
+      <h2>Un zaguán que se volvió fonda</h2>
+      <p>El Zaguán nació en la entrada de una casa familiar del centro de León, donde por años se recibía a vecinos con café y pan recién horneado. Con el tiempo, esa entrada se convirtió en comedor, y el comedor en el lugar donde hoy te recibimos.</p>
+      <p>Seguimos cocinando con el mismo comal de barro, las mismas recetas escritas a mano y las mismas ganas de que te sientas en casa desde que cruzas la puerta.</p>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Lo que se cocina hoy</span>
+      <h2>Nuestro menú</h2>
+      <p>Platillos de temporada, café de grano nacional y postres hechos en casa cada mañana.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-cat">
+        <h3>Desayunos</h3>
+        <span class="cat-tag">para empezar bien el día</span>
+        <div class="dish">
+          <div><div class="dish-name">Chilaquiles verdes con pollo<span class="badge">Favorito</span></div><div class="dish-desc">Totopos caseros, crema, queso fresco y cebolla morada</div></div>
+          <div class="dish-price">$95</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Huevos al albañil</div><div class="dish-desc">Salsa roja martajada, frijoles refritos y tortillas de comal</div></div>
+          <div class="dish-price">$85</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Enfrijoladas de la casa</div><div class="dish-desc">Rellenas de pollo deshebrado, queso y rajas</div></div>
+          <div class="dish-price">$90</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Pan de elote casero</div><div class="dish-desc">Tibio, con un toque de canela</div></div>
+          <div class="dish-price">$45</div>
+        </div>
+      </div>
+      <div class="menu-cat">
+        <h3>Antojitos y fondos</h3>
+        <span class="cat-tag">para quedarse a comer</span>
+        <div class="dish">
+          <div><div class="dish-name">Mole rojo de la casa<span class="badge">Especialidad</span></div><div class="dish-desc">Con pollo de rancho, arroz rojo y tortillas hechas a mano</div></div>
+          <div class="dish-price">$145</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Milanesa a la mexicana</div><div class="dish-desc">Empanizada, con ensalada fresca y papas al comal</div></div>
+          <div class="dish-price">$130</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Sopes de tinga</div><div class="dish-desc">Tres piezas con lechuga, crema y queso añejo</div></div>
+          <div class="dish-price">$110</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Guisado del día</div><div class="dish-desc">Pregunta a tu mesero por la sorpresa de hoy</div></div>
+          <div class="dish-price">$100</div>
+        </div>
+      </div>
+      <div class="menu-cat">
+        <h3>Café y bebidas</h3>
+        <span class="cat-tag">de olla, de grano, de toda la vida</span>
+        <div class="dish">
+          <div class="dish-main">
+            <img class="dish-thumb" src="images/cafeteria-acogedora.jpg" alt="Café de olla">
+            <div><div class="dish-name">Café de olla<span class="badge">Favorito</span></div><div class="dish-desc">Piloncillo y canela, servido en jarrito de barro</div></div>
+          </div>
+          <div class="dish-price">$40</div>
+        </div>
+        <div class="dish">
+          <div class="dish-main">
+            <img class="dish-thumb" src="images/cafeteria-rustica.jpg" alt="Capuchino con canela">
+            <div><div class="dish-name">Capuchino con canela</div><div class="dish-desc">Grano de la región, tostado local</div></div>
+          </div>
+          <div class="dish-price">$48</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Agua de jamaica</div><div class="dish-desc">Hecha en casa, sin azúcar añadida de más</div></div>
+          <div class="dish-price">$30</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Horchata</div><div class="dish-desc">Receta de la abuela, con un toque de vainilla</div></div>
+          <div class="dish-price">$30</div>
+        </div>
+      </div>
+      <div class="menu-cat">
+        <h3>Postres</h3>
+        <span class="cat-tag">para no dejar la mesa</span>
+        <div class="dish">
+          <div><div class="dish-name">Flan napolitano</div><div class="dish-desc">Cremoso, con caramelo casero</div></div>
+          <div class="dish-price">$55</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Pastel de tres leches<span class="badge">Favorito</span></div><div class="dish-desc">Esponjoso, bañado justo antes de servir</div></div>
+          <div class="dish-price">$60</div>
+        </div>
+        <div class="dish">
+          <div><div class="dish-name">Arroz con leche</div><div class="dish-desc">Con canela y un toque de ralladura de limón</div></div>
+          <div class="dish-price">$45</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tile-divider" id="tileMid"></div>
+
+<section class="galeria" id="galeria">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Un vistazo</span>
+      <h2>Galería</h2>
+      <p>Reemplaza estos espacios con fotos reales de tu comida, tu patio y tu equipo — así sabrán qué esperar antes de llegar.</p>
+    </div>
+    <div class="galeria-grid">
+      <div class="gal-item gal1"><span>El comal</span></div>
+      <div class="gal-item gal2 has-photo" style="background-image:url('images/cafeteria-vintage.jpg');"><span>Patio interior</span></div>
+      <div class="gal-item gal3 has-photo" style="background-image:url('images/cafeteria-minimalista.jpg');"><span>Café de olla</span></div>
+      <div class="gal-item gal4"><span>Nuestra fachada</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="reservar" id="reservar">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Aparta tu lugar</span>
+      <h2>Reserva tu mesa</h2>
+      <p>Cuéntanos cuándo vienen y cuántos son — te confirmamos por teléfono o correo.</p>
+    </div>
+    <form id="reservaForm">
+      <div class="form-row">
+        <div class="field">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" name="fecha" required>
+        </div>
+        <div class="field">
+          <label for="hora">Hora</label>
+          <input type="time" id="hora" name="hora" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="personas">Número de personas</label>
+          <select id="personas" name="personas" required>
+            <option value="">Selecciona</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="correo">Correo (opcional)</label>
+          <input type="email" id="correo" name="correo">
+        </div>
+      </div>
+      <div class="field full" style="margin-bottom:18px;">
+        <label for="notas">Notas o peticiones especiales</label>
+        <textarea id="notas" name="notas" placeholder="Alergias, celebraciones, silla para bebé..."></textarea>
+      </div>
+      <button type="submit" class="btn" style="width:100%;">Enviar reservación</button>
+      <div class="form-msg" id="formMsg">¡Gracias! Tu solicitud se abrió en tu correo — solo confírmala y enviamos tu reservación.</div>
+    </form>
+  </div>
+</section>
+
+<footer id="contacto">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <h3>El Zaguán</h3>
+        <p>Calle Cantarranas 214, Centro<br>León de los Aldama, Guanajuato</p>
+        <p style="margin-top:10px;">477 123 4567<br>hola@elzaguan.mx</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div>
+        <h3>Horario</h3>
+        <div class="hours-row"><span>Lun – Vie</span><span>8:00 – 22:00</span></div>
+        <div class="hours-row"><span>Sábado</span><span>9:00 – 23:00</span></div>
+        <div class="hours-row"><span>Domingo</span><span>9:00 – 16:00</span></div>
+      </div>
+      <div>
+        <h3>Visítanos</h3>
+        <p>Estamos a dos cuadras de la plaza principal, junto a la panadería de la esquina. Estacionamiento con validación disponible.</p>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 El Zaguán · Cafetería y Fonda. Todos los datos de este sitio son de ejemplo — reemplázalos con la información real de tu negocio.</div>
+  </div>
+</footer>
+
+<script>
+  // Menú móvil
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // Divisor de mosaicos: generar suficientes piezas según ancho de pantalla
+  function fillTileDivider(el){
+    el.innerHTML = '';
+    const count = Math.ceil(window.innerWidth / 34) + 2;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('span');
+      el.appendChild(s);
+    }
+  }
+  ['tileTop','tileMid'].forEach(id => fillTileDivider(document.getElementById(id)));
+  window.addEventListener('resize', () => {
+    ['tileTop','tileMid'].forEach(id => fillTileDivider(document.getElementById(id)));
+  });
+
+  // Formulario de reservación -> abre correo prellenado (no hay backend conectado todavía)
+  document.getElementById('reservaForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const telefono = document.getElementById('telefono').value;
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+    const personas = document.getElementById('personas').value;
+    const notas = document.getElementById('notas').value;
+
+    const asunto = encodeURIComponent('Reservación - ' + nombre);
+    const cuerpo = encodeURIComponent(
+      `Nombre: ${nombre}\nTeléfono: ${telefono}\nFecha: ${fecha}\nHora: ${hora}\nPersonas: ${personas}\nNotas: ${notas}`
+    );
+    window.location.href = `mailto:hola@elzaguan.mx?subject=${asunto}&body=${cuerpo}`;
+
+    const msg = document.getElementById('formMsg');
+    msg.classList.add('show');
+    setTimeout(()=> msg.classList.remove('show'), 6000);
+  });
+</script>
+
+</body>
+</html>
